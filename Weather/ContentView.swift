@@ -1,38 +1,16 @@
-//
-//  ContentView.swift
-//  Weather
-//
-//  Created by Nitin Chowdary on 03/01/24.
-//
+
 
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
         ZStack{
-            LinearGradient(gradient: Gradient(colors: [Color.blue, Color("GreeishBlue")]),
-                           startPoint: .topTrailing,
-                           endPoint: .bottomTrailing)
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            //Adds gradient of colors, can add any N no of colors
+            BackGroundView(topColor: .blue, bottomColor: .gray)
             VStack{
                 
-                Text("Hyderabad, TS")
-                    .font(.system(size: 32,weight: .medium, design: .default))
-                    .foregroundColor(.white)
-                    .padding(40)
+                CityName(city:"Hyderabad, TS")
                 
-                VStack(spacing:6){
-                    Image(systemName: "cloud.sun.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width:170,height:170)
-                    Text("25°")
-                        .font(.system(size: 70,weight:.medium,design:.default))
-                        .foregroundColor(.white)
-                }
-                .padding()
+                MainWeatherView(icon: "cloud.sun.fill",mainTemperature: 25)
                 HStack{
 //                    Spacer()
                     WeatherDayView(dayOfWeek: "MON", imageName: "cloud.sun.fill", temperature: 35)
@@ -47,11 +25,7 @@ struct ContentView: View {
                 Button{
                     print("Tapped")
                 }label: {
-                    Text("Change Day Time")
-                        .frame(width:280,height:50)
-                        .background(Color.white)
-                        .font(.system(size: 20,weight: .bold,design: .default))
-                        .cornerRadius(14)
+                    ButtonText(title: "Change Day Time", textColor: .blue, backGroundColor: .white)
                 }
                 Spacer()
             }
@@ -85,3 +59,47 @@ struct WeatherDayView: View {
         }.padding(10)
     }
 }
+
+struct BackGroundView: View {
+    var topColor: Color
+    var bottomColor: Color
+    var body: some View {
+        
+        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor]),
+                       startPoint: .topTrailing,
+                       endPoint: .bottomTrailing)
+        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+        //Adds gradient of colors, can add any N no of colors
+
+    }
+}
+
+struct CityName: View {
+    var city: String
+    var body: some View {
+        Text(city)
+            .font(.system(size: 32,weight: .medium, design: .default))
+            .foregroundColor(.white)
+            .padding(40)
+    }
+}
+
+struct MainWeatherView: View {
+    var icon: String
+    var mainTemperature: Int
+    var body: some View {
+        VStack(spacing:6){
+            Image(systemName: icon)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width:170,height:170)
+            Text("\(mainTemperature)°")
+                .font(.system(size: 70,weight:.medium,design:.default))
+                .foregroundColor(.white)
+        }
+        .padding()
+    }
+}
+
+
